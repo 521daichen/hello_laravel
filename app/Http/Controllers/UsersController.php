@@ -22,6 +22,9 @@ class UsersController extends Controller
             'only' => ['create']
         ]);
     }
+
+
+
     public function index()
     {
         $users = User::paginate(30);
@@ -35,7 +38,10 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()
+            ->orderBy('created_at', 'desc')
+            ->paginate(30);
+        return view('users.show', compact('user', 'statuses'));
     }
 
     public function store(Request $request)

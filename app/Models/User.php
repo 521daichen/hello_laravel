@@ -16,6 +16,8 @@ class User extends Model implements AuthenticatableContract,
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
+
+
     /**
      * The database table used by the model.
      *
@@ -37,6 +39,11 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }
+
     public static function boot()
     {
         parent::boot();
@@ -50,5 +57,10 @@ class User extends Model implements AuthenticatableContract,
     {
         $hash = md5(strtolower(trim($this->attributes['email'])));
         return "http://www.gravatar.com/avatar/$hash?s=$size";
+    }
+    public function feed()
+    {
+        return $this->statuses()
+            ->orderBy('created_at', 'desc');
     }
 }

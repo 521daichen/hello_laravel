@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Http\Response;
+
 Route::get('/', 'StaticPagesController@home')->name('home');
 Route::get('/help', 'StaticPagesController@help')->name('help');
 Route::get('/about', 'StaticPagesController@about')->name('about');
@@ -40,3 +42,11 @@ Route::get('/users/{id}/followers', 'UsersController@followers')->name('users.fo
 
 Route::post('/users/followers/{id}', 'FollowersController@store')->name('followers.store');
 Route::delete('/users/followers/{id}', 'FollowersController@destroy')->name('followers.destroy');
+
+Route::get('daichen', function () {
+    return (new Response(['a'=>'c','s','c'], '200'))
+        ->header('Content-Type','json');
+});
+
+Route::get('study','StudyController@show')->name('study.show');
+Route::get('study/{id}','StudyController@content')->name('study.content');
